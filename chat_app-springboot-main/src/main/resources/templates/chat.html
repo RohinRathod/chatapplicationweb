@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+    <title>Chat App | Spring Boot + WebSocket</title>
+    <link rel="stylesheet" href="/css/main.css" />
+	<script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.4/dist/index.min.js" type="module"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button/dist/index.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body
+    style="
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url('/images/space.jpg');
+      background-size: cover;
+    "
+  >
+    <noscript>
+      <h2>Please enable JavaScript in your browser!!!</h2>
+    </noscript>
+	
+	<script>
+	      var username = /*[[${username}]]*/ ''; // Thymeleaf will inject the username here
+	  </script>
+
+    <div id="chat-page" class="hidden">
+      <button
+        onclick="location.href = location.href;"
+        style="
+          position: absolute;
+          top: 0;
+          right: 0;
+          background-color: #ff0000;
+          z-index: 999;
+        "
+      >
+        Logout
+      </button>
+      <div class="chat-container">
+        <div class="chat-header">
+          <h2>Group Chat</h2>
+        </div>
+        <div class="connecting">Connecting to the chat...</div>
+        <ul
+          id="messageArea"
+          style="
+            background-color: rgba(0, 0, 0, 0.26);
+            backdrop-filter: blur(10px);
+          "
+        ></ul>
+		<span id=usernameraw th:text="${username}"></span>
+		<form id="messageForm"   name="messageForm">
+		  <div class="form-group">
+		    <div class="input-group clearfix">
+		      <input
+		        type="text"
+		        id="message"
+		        placeholder="Message"
+		        autocomplete="off"
+		        autofocus
+		        class="form-control"
+		        style="background-color: transparent; backdrop-filter: blur(24px); color: #ffffff;"
+		      />
+			  <button 
+			          type="button" 
+			          class="trigger" 
+			          style="padding: 10px;">😊
+			        </button>
+					<input type="file" id="fileInput" />	
+		      <button type="submit" class="btn">
+		        <i class="fa-solid fa-paper-plane"></i> Send
+		      </button>
+		    </div>
+		  </div>
+		</form>
+		<script type="module">
+		    import { EmojiButton } from 'https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.4/dist/index.min.js';
+
+		    // Initialize the Emoji Button
+			const picker = new EmojiButton({
+			  autoHide: false, // Prevent the picker from closing after selecting an emoji
+			});
+
+		    // Select elements
+		    const messageInput = document.getElementById('message');
+		    const triggerButton = document.querySelector('.trigger');
+
+		    // Listen for emoji selection
+		    picker.on('emoji', selection => {
+		      messageInput.value += selection.emoji;
+		    });
+
+		    // Toggle the emoji picker
+		    triggerButton.addEventListener('click', () => picker.togglePicker(triggerButton));
+		  </script>
+		
+		
+		
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script type="text/javascript">
+      window.onbeforeunload = function () {
+        return "Dude, are you sure you want to leave? Think of the kittens!";
+      };
+    </script>
+  </body>
+</html>
