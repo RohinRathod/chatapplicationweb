@@ -1,8 +1,9 @@
 FROM openjdk:22-jdk AS build
+WORKDIR /app
 COPY . .
 RUN mvn clean package -Dskiptests
 
 FROM openjdk:22-jdk-slim
-COPY --from=build /target/chat-app-0.0.1-SNAPSHOT demo.jar
+COPY --from=build /app/target/chat-app-0.0.1-SNAPSHOT demo.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","demo.jar"]
