@@ -1,7 +1,7 @@
 FROM openjdk:22-jdk AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package -Dskiptests
+RUN mvn clean package -DskipTests
 
 FROM openjdk:22-jdk-slim
 COPY --from=build /app/target/chat-app-0.0.1-SNAPSHOT demo.jar
