@@ -1,6 +1,6 @@
 package in.rohinrathod.chatapp.Entity;
 
-import jakarta.persistence.Column;
+import javax.persistence.Column;
 
 public class UserDto {
 	private String username;

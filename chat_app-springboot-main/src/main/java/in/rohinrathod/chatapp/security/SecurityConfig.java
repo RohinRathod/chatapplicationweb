@@ -41,17 +41,25 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(requests -> requests.requestMatchers("/register", "/login", "/js/**", "/css/**", "/images/**").permitAll()
-						.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**").hasRole("USER")
-						.anyRequest().authenticated())
-				.formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/chat", true)
-						.failureUrl("/login?error=true").permitAll())
-				.logout(logout -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true)
-						.deleteCookies("JSESSIONID").permitAll());
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http.csrf(csrf -> csrf.disable())
+	        .authorizeRequests(authz -> authz
+	            .antMatchers("/register", "/login", "/js/**", "/css/**", "/images/**").permitAll()
+	            .antMatchers("/admin/**").hasRole("ADMIN")
+	            .antMatchers("/user/**").hasRole("USER")
+	            .anyRequest().authenticated())
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .defaultSuccessUrl("/chat", true)
+	            .failureUrl("/login?error=true")
+	            .permitAll())
+	        .logout(logout -> logout
+	            .logoutSuccessUrl("/login")
+	            .invalidateHttpSession(true)
+	            .deleteCookies("JSESSIONID")
+	            .permitAll());
 
-		return http.build();
+	    return http.build();
 	}
 
 	@Bean
